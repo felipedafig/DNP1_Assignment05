@@ -1,0 +1,109 @@
+@using Shared.DTOs.Comments
+@using BlazorApp.Services
+@inject ICommentService CommentService
+
+<div class="comment-form-section">
+    <h5 class="mb-3">
+        <i class="bi bi-plus-circle"></i> Add a Comment
+    </h5>
+    
+    <EditForm Model="newComment" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary class="text-danger" />
+        
+        <div class="mb-3">
+            <label for="commentBody" class="form-label">Your Comment</label>
+            <InputTextArea id="commentBody" 
+                          @bind-Value="newComment.Body" 
+                          class="form-control" 
+                          rows="3"
+                          placeholder="Share your thoughts..."></InputTextArea>
+            <ValidationMessage For="() => newComment.Body" class="text-danger" />
+        </div>
+        
+        <div class="mb-3">
+            <label for="userId" class="form-label">User ID</label>
+            <InputNumber id="userId" 
+                        @bind-Value="newComment.UserId" 
+                        class="form-control"
+                        placeholder="Enter your user ID"></InputNumber>
+            <ValidationMessage For="() => newComment.UserId" class="text-danger" />
+            <div class="form-text">Enter your user ID to post this comment.</div>
+        </div>
+        
+        <div class="d-flex gap-2">
+            <button type="submit" 
+                    class="btn btn-primary" 
+                    disabled="@IsSubmitting">
+                @if (IsSubmitting)
+                {
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                }
+                <i class="bi bi-send"></i> Post Comment
+            </button>
+            
+            <button type="button" 
+                    class="btn btn-outline-secondary" 
+                    @onclick="ClearForm">
+                <i class="bi bi-x-circle"></i> Clear
+            </button>
+        </div>
+    </EditForm>
+    
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <div class="alert alert-danger mt-3">
+            <i class="bi bi-exclamation-triangle"></i> @ErrorMessage
+        </div>
+    }
+    
+    @if (!string.IsNullOrEmpty(SuccessMessage))
+    {
+        <div class="alert alert-success mt-3">
+            <i class="bi bi-check-circle"></i> @SuccessMessage
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public int PostId { get; set; }
+    [Parameter] public EventCallback OnCommentAdded { get; set; }
+    
+    private CreateCommentDto newComment = new() { Body = "", UserId = 0 };
+    private string? ErrorMessage;
+    private string? SuccessMessage;
+    private bool IsSubmitting = false;
+
+    private async Task HandleValidSubmit()
+    {
+        ErrorMessage = null;
+        SuccessMessage = null;
+        IsSubmitting = true;
+        
+        try
+        {
+            var createdComment = await CommentService.AddCommentAsync(newComment, PostId);
+            
+            SuccessMessage = "Comment posted successfully!";
+            ClearForm();
+            
+            // Notify parent component that a comment was added
+            await OnCommentAdded.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Failed to post comment: {ex.Message}";
+        }
+        finally
+        {
+            IsSubmitting = false;
+        }
+    }
+    
+    private void ClearForm()
+    {
+        newComment = new() { Body = "", UserId = 0 };
+        ErrorMessage = null;
+        SuccessMessage = null;
+    }
+}

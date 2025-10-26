@@ -1,8 +1,11 @@
 ﻿@page "/posts"
 @rendermode InteractiveServer
 
+@using BlazorApp.Services
 @using Shared.DTOs.Posts
+@using Shared.DTOs.Users
 @inject IPostService PostService
+@inject IUserService UserService
 
 <h1>Posts</h1>
 
@@ -19,9 +22,13 @@ else
     <div class="list-group">
         @foreach (var p in posts)
         {
-            <a class="list-group-item list-group-item-action" href=$"/posts/{p.Id}">
-                <div class="fw-bold">@p.Title</div>
-                <div class="text-muted">1</div>
+            <a class="list-group-item list-group-item-action" href="@($"/posts/{p.Id}")">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1">@p.Title</h5>
+                        <small class="text-muted">By: @GetAuthorName(p.UserId)</small>
+                    </div>
+                </div>
             </a>
         }
     </div>
@@ -29,9 +36,48 @@ else
 
 @code {
     private List<PostDto>? posts;
+    private Dictionary<int, string> _authorNames = new();
 
     protected override async Task OnInitializedAsync()
     {
-        posts = await PostService.GetPostsAsync();
+        await LoadPosts();
+    }
+
+    private async Task LoadPosts()
+    {
+        posts = await PostService.GetManyPostsAsync();
+        
+        if (posts != null && posts.Any())
+        {
+            await LoadAuthorNames();
+        }
+    }
+
+    private async Task LoadAuthorNames()
+    {
+        if (posts == null) return;
+        
+        var userIds = posts.Select(p => p.UserId).Distinct();
+        
+        foreach (var userId in userIds)
+        {
+            if (!_authorNames.ContainsKey(userId))
+            {
+                try
+                {
+                    var user = await UserService.GetSingleUserAsync(userId);
+                    _authorNames[userId] = user.Username;
+                }
+                catch
+                {
+                    _authorNames[userId] = "Unknown User";
+                }
+            }
+        }
+    }
+
+    private string GetAuthorName(int userId)
+    {
+        return _authorNames.TryGetValue(userId, out var name) ? name : "Loading...";
     }
 }

@@ -32,7 +32,7 @@ Content-Type: application/json
 }
 
 ### 4. DELETE - Delete User 2
-DELETE {{WebAPI1_HostAddress}}/users/2 
+DELETE {{WebAPI1_HostAddress}}/users/6 
 Accept: application/json
 
 ### 5. GET - Get Single User 2

@@ -1,0 +1,262 @@
+@page "/posts/{id:int}"
+@rendermode InteractiveServer
+
+@using Shared.DTOs.Posts
+@using Shared.DTOs.Comments
+@using BlazorApp.Services
+@using BlazorApp.Components
+@inject IPostService PostService
+@inject IUserService UserService
+@inject ICommentService CommentService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Post Details</PageTitle>
+
+<div class="container">
+    @if (IsLoading)
+    {
+        <p>Loading...</p>
+    }
+    else if (ErrorMessage is not null)
+    {
+        <div class="alert alert-danger">
+            <p>@ErrorMessage</p>
+            <button @onclick="GoBackToPosts">Back to Posts</button>
+        </div>
+    }
+    else if (Post is not null)
+    {
+        <div class="mb-3">
+            <button @onclick="GoBackToPosts">← Back to Posts</button>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>@Post.Title</h3>
+                <small class="text-muted">By: @AuthorName (ID: @Post.UserId)</small>
+            </div>
+            <div class="card-body">
+                <p>@Post.Body</p>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <h5>Comments (@Comments.Count)</h5>
+            
+            @if (Comments.Any())
+            {
+                @foreach (var comment in Comments)
+                {
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <strong>@GetAuthorName(comment.UserId)</strong>
+                            <p class="mb-0">@comment.Body</p>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">No comments yet.</p>
+            }
+
+            <div class="mt-3">
+                @if (!ShowCommentForm)
+                {
+                    <button class="btn btn-primary" @onclick="ShowAddCommentForm">Add Comment</button>
+                }
+                else
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <h6>Add Comment</h6>
+                        </div>
+                        <div class="card-body">
+                            <EditForm Model="newComment" OnValidSubmit="HandleValidSubmit">
+                                <DataAnnotationsValidator />
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Your Comment</label>
+                                    <InputTextArea @bind-Value="newComment.Body" class="form-control" rows="3"></InputTextArea>
+                                    <ValidationMessage For="() => newComment.Body" class="text-danger" />
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">User ID</label>
+                                    <InputNumber @bind-Value="newComment.UserId" class="form-control"></InputNumber>
+                                    <ValidationMessage For="() => newComment.UserId" class="text-danger" />
+                                </div>
+                                
+                                <div class="d-flex gap-2">
+                                    <button type="submit" class="btn btn-success" disabled="@IsSubmitting">
+                                        @if (IsSubmitting)
+                                        {
+                                            <span class="spinner-border spinner-border-sm me-2"></span>
+                                        }
+                                        Post Comment
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" @onclick="CancelAddComment">Cancel</button>
+                                </div>
+                            </EditForm>
+                            
+                            @if (!string.IsNullOrEmpty(CommentErrorMessage))
+                            {
+                                <div class="alert alert-danger mt-2">@CommentErrorMessage</div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public int Id { get; set; }
+    
+    private PostDto? Post;
+    private List<CommentDto> Comments = new();
+    private string? ErrorMessage;
+    private bool IsLoading = true;
+    private string AuthorName = "Loading...";
+    private bool ShowCommentForm = false;
+    private CreateCommentDto newComment = new() { Body = "", UserId = 0 };
+    private string? CommentErrorMessage;
+    private bool IsSubmitting = false;
+    private Dictionary<int, string> _authorNames = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadPostData();
+    }
+
+    private async Task LoadPostData()
+    {
+        IsLoading = true;
+        ErrorMessage = null;
+        
+        try
+        {
+            var postTask = PostService.GetSinglePostAsync(Id);
+            var commentsTask = CommentService.GetCommentsByPostIdAsync(Id);
+            
+            await Task.WhenAll(postTask, commentsTask);
+            
+            Post = await postTask;
+            Comments = await commentsTask;
+            
+            if (Post != null)
+            {
+                await LoadAuthorName();
+                await LoadCommentAuthorNames();
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Failed to load post: {ex.Message}";
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private async Task LoadAuthorName()
+    {
+        if (Post != null)
+        {
+            try
+            {
+                var author = await UserService.GetSingleUserAsync(Post.UserId);
+                AuthorName = author.Username;
+            }
+            catch
+            {
+                AuthorName = "Unknown User";
+            }
+        }
+    }
+
+    private async Task LoadCommentAuthorNames()
+    {
+        var userIds = Comments.Select(c => c.UserId).Distinct();
+        
+        foreach (var userId in userIds)
+        {
+            if (!_authorNames.ContainsKey(userId))
+            {
+                try
+                {
+                    var user = await UserService.GetSingleUserAsync(userId);
+                    _authorNames[userId] = user.Username;
+                }
+                catch
+                {
+                    _authorNames[userId] = "Unknown User";
+                }
+            }
+        }
+    }
+
+    private string GetAuthorName(int userId)
+    {
+        return _authorNames.TryGetValue(userId, out var name) ? name : "Loading...";
+    }
+
+    private void ShowAddCommentForm()
+    {
+        ShowCommentForm = true;
+        newComment = new() { Body = "", UserId = 0 };
+        CommentErrorMessage = null;
+    }
+
+    private void CancelAddComment()
+    {
+        ShowCommentForm = false;
+        newComment = new() { Body = "", UserId = 0 };
+        CommentErrorMessage = null;
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        CommentErrorMessage = null;
+        IsSubmitting = true;
+        
+        try
+        {
+            await CommentService.AddCommentAsync(newComment, Post!.Id);
+            await RefreshComments();
+            ShowCommentForm = false;
+            newComment = new() { Body = "", UserId = 0 };
+        }
+        catch (Exception ex)
+        {
+            CommentErrorMessage = $"Failed to post comment: {ex.Message}";
+        }
+        finally
+        {
+            IsSubmitting = false;
+        }
+    }
+
+    private async Task RefreshComments()
+    {
+        if (Post != null)
+        {
+            try
+            {
+                Comments = await CommentService.GetCommentsByPostIdAsync(Post.Id);
+                await LoadCommentAuthorNames();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to refresh comments: {ex.Message}");
+            }
+        }
+    }
+
+    private void GoBackToPosts()
+    {
+        NavigationManager.NavigateTo("/posts");
+    }
+}

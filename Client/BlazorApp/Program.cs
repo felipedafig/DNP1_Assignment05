@@ -12,8 +12,17 @@ builder.Services.AddScoped(sp => new HttpClient
     BaseAddress = new Uri("http://localhost:5075/")
 });
 
-// Force clear any cached HttpClient instances
 builder.Services.AddHttpClient<IUserService, HttpUserService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5075/");
+});
+
+builder.Services.AddHttpClient<IPostService, HttpPostService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5075/");
+});
+
+builder.Services.AddHttpClient<ICommentService, HttpCommentService>(client =>
 {
     client.BaseAddress = new Uri("http://localhost:5075/");
 });
@@ -33,6 +42,8 @@ if (!app.Environment.IsDevelopment())
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForErrors: true);
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
 
 app.UseAntiforgery();
 
