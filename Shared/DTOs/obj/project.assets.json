@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Shared\\DTOs\\DTOs.csproj",
+      "projectUniqueName": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Shared\\DTOs\\DTOs.csproj",
       "projectName": "DTOs",
-      "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Shared\\DTOs\\DTOs.csproj",
+      "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Shared\\DTOs\\DTOs.csproj",
       "packagesPath": "C:\\Users\\felip\\.nuget\\packages\\",
-      "outputPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Shared\\DTOs\\obj\\",
+      "outputPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Shared\\DTOs\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\felip\\AppData\\Roaming\\NuGet\\NuGet.Config"

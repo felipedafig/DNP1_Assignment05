@@ -1,0 +1,120 @@
+@page "/adduser"
+@rendermode InteractiveServer
+
+@using Shared.DTOs.Users
+@using BlazorApp.Services
+@inject IUserService UserService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Add User</PageTitle>
+
+<h1>User Creation</h1>
+<hr />
+
+<button class="btn btn-primary" @onclick="ShowModal">
+    Add New User
+</button>
+
+@if (ErrorMessage is not null)
+{
+    <div class="alert alert-danger mt-3">@ErrorMessage</div>
+}
+
+<div class="modal @ModalClass" tabindex="-1" style="display: @ModalDisplay;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <EditForm Model="newUser" OnValidSubmit="HandleValidSubmit" FormName="create" Enhance>
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New User</h5>
+                    <button type="button" class="btn-close" @onclick="HideModal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary class="text-danger" />
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <InputText id="username" @bind-Value="newUser.Username" class="form-control" />
+                        <ValidationMessage For="() => newUser.Username" class="text-danger" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <InputText id="password" type="password" @bind-Value="newUser.Password" class="form-control" />
+                        <ValidationMessage For="() => newUser.Password" class="text-danger" />
+                    </div>
+
+                    <p class="text-muted">Note: User ID will be hardcoded to 1 in this assignment.</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="HideModal">Close</button>
+                    <button type="submit" class="btn btn-success" disabled="@IsProcessing">
+                        @if (IsProcessing)
+                        {
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        }
+                        Add User
+                    </button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    private CreateUserDto newUser = new() { Username = "", Password = "" };
+    private string? ErrorMessage;
+    private bool IsProcessing = false;
+
+    // Modal state properties
+    private string ModalDisplay = "none";
+    private string ModalClass = "";
+
+    
+
+    private void ShowModal()
+    {
+        ModalDisplay = "block";
+        ModalClass = "show";
+        StateHasChanged(); 
+    }
+
+    private void HideModal()
+    {
+        ModalDisplay = "none";
+        ModalClass = "";
+        ErrorMessage = null; 
+        newUser = new() { Username = "", Password = "" }; 
+        StateHasChanged();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        ErrorMessage = null;
+        IsProcessing = true;
+
+        
+        try
+        {
+            UserDto createdUser = await UserService.AddUserAsync(newUser);
+            
+            HideModal(); 
+            // Optional: Navigate to a list page or user profile page
+            // NavigationManager.NavigateTo($"/user/{createdUser.Id}"); 
+
+            // For this simple case, just show a success message/log
+            Console.WriteLine($"User created successfully: {createdUser.Username}");
+            
+        }
+        catch (Exception e)
+        {
+            // Display the error message returned from the Web API
+            ErrorMessage = $"Error creating user: {e.Message}";
+        }
+        finally
+        {
+            IsProcessing = false;
+        }
+    }
+}

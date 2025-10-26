@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\WebAPI1\\WebAPI1.csproj": {}
+    "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\WebAPI1\\WebAPI1.csproj": {}
   },
   "projects": {
-    "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\FileRepositories\\FileRepositories.csproj": {
+    "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\FileRepositories\\FileRepositories.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\FileRepositories\\FileRepositories.csproj",
+        "projectUniqueName": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\FileRepositories\\FileRepositories.csproj",
         "projectName": "FileRepositories",
-        "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\FileRepositories\\FileRepositories.csproj",
+        "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\FileRepositories\\FileRepositories.csproj",
         "packagesPath": "C:\\Users\\felip\\.nuget\\packages\\",
-        "outputPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\FileRepositories\\obj\\",
+        "outputPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\FileRepositories\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\felip\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,11 +26,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\Models\\Models.csproj": {
-                "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\Models\\Models.csproj"
+              "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\Models\\Models.csproj": {
+                "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\Models\\Models.csproj"
               },
-              "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\RepositoryContracts\\RepositoryContracts.csproj": {
-                "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\RepositoryContracts\\RepositoryContracts.csproj"
+              "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\RepositoryContracts\\RepositoryContracts.csproj": {
+                "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\RepositoryContracts\\RepositoryContracts.csproj"
               }
             }
           }
@@ -371,14 +371,14 @@
         }
       }
     },
-    "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\Models\\Models.csproj": {
+    "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\Models\\Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\Models\\Models.csproj",
+        "projectUniqueName": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\Models\\Models.csproj",
         "projectName": "Models",
-        "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\Models\\Models.csproj",
+        "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\Models\\Models.csproj",
         "packagesPath": "C:\\Users\\felip\\.nuget\\packages\\",
-        "outputPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\Models\\obj\\",
+        "outputPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\Models\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\felip\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -731,14 +731,14 @@
         }
       }
     },
-    "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\RepositoryContracts\\RepositoryContracts.csproj": {
+    "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\RepositoryContracts\\RepositoryContracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\RepositoryContracts\\RepositoryContracts.csproj",
+        "projectUniqueName": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\RepositoryContracts\\RepositoryContracts.csproj",
         "projectName": "RepositoryContracts",
-        "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\RepositoryContracts\\RepositoryContracts.csproj",
+        "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\RepositoryContracts\\RepositoryContracts.csproj",
         "packagesPath": "C:\\Users\\felip\\.nuget\\packages\\",
-        "outputPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\RepositoryContracts\\obj\\",
+        "outputPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\RepositoryContracts\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\felip\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -753,8 +753,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\Models\\Models.csproj": {
-                "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\Models\\Models.csproj"
+              "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\Models\\Models.csproj": {
+                "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\Models\\Models.csproj"
               }
             }
           }
@@ -1095,14 +1095,14 @@
         }
       }
     },
-    "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\WebAPI1\\WebAPI1.csproj": {
+    "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\WebAPI1\\WebAPI1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\WebAPI1\\WebAPI1.csproj",
+        "projectUniqueName": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\WebAPI1\\WebAPI1.csproj",
         "projectName": "WebAPI1",
-        "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\WebAPI1\\WebAPI1.csproj",
+        "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\WebAPI1\\WebAPI1.csproj",
         "packagesPath": "C:\\Users\\felip\\.nuget\\packages\\",
-        "outputPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\WebAPI1\\obj\\",
+        "outputPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\WebAPI1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\felip\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1117,11 +1117,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\FileRepositories\\FileRepositories.csproj": {
-                "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Server\\FileRepositories\\FileRepositories.csproj"
+              "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\FileRepositories\\FileRepositories.csproj": {
+                "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Server\\FileRepositories\\FileRepositories.csproj"
               },
-              "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Shared\\DTOs\\DTOs.csproj": {
-                "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Shared\\DTOs\\DTOs.csproj"
+              "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Shared\\DTOs\\DTOs.csproj": {
+                "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Shared\\DTOs\\DTOs.csproj"
               }
             }
           }
@@ -1621,14 +1621,14 @@
         }
       }
     },
-    "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Shared\\DTOs\\DTOs.csproj": {
+    "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Shared\\DTOs\\DTOs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Shared\\DTOs\\DTOs.csproj",
+        "projectUniqueName": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Shared\\DTOs\\DTOs.csproj",
         "projectName": "DTOs",
-        "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Shared\\DTOs\\DTOs.csproj",
+        "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Shared\\DTOs\\DTOs.csproj",
         "packagesPath": "C:\\Users\\felip\\.nuget\\packages\\",
-        "outputPath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Shared\\DTOs\\obj\\",
+        "outputPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Shared\\DTOs\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\felip\\AppData\\Roaming\\NuGet\\NuGet.Config"

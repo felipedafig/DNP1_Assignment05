@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "OzX5dZy5lGo=",
+  "dgSpecHash": "9izd3xDnxe8=",
   "success": true,
-  "projectFilePath": "C:\\Git_VIACode\\DNP1Y\\Assignment04\\Shared\\DTOs\\DTOs.csproj",
+  "projectFilePath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Shared\\DTOs\\DTOs.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\felip\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.18\\microsoft.netcore.app.ref.8.0.18.nupkg.sha512",
     "C:\\Users\\felip\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.18\\microsoft.windowsdesktop.app.ref.8.0.18.nupkg.sha512",
