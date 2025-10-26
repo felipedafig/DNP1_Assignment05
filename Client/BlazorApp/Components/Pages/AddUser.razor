@@ -15,11 +15,6 @@
     Add New User
 </button>
 
-@if (ErrorMessage is not null)
-{
-    <div class="alert alert-danger mt-3">@ErrorMessage</div>
-}
-
 <div class="modal @ModalClass" tabindex="-1" style="display: @ModalDisplay;">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -29,6 +24,10 @@
                     <button type="button" class="btn-close" @onclick="HideModal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    @if (ErrorMessage is not null)
+                    {
+                        <div class="alert alert-danger mb-3">@ErrorMessage</div>
+                    }
                     <DataAnnotationsValidator />
                     <ValidationSummary class="text-danger" />
 
@@ -44,7 +43,6 @@
                         <ValidationMessage For="() => newUser.Password" class="text-danger" />
                     </div>
 
-                    <p class="text-muted">Note: User ID will be hardcoded to 1 in this assignment.</p>
 
                 </div>
                 <div class="modal-footer">
@@ -100,8 +98,8 @@
             UserDto createdUser = await UserService.AddUserAsync(newUser);
             
             HideModal(); 
-            // Optional: Navigate to a list page or user profile page
-            // NavigationManager.NavigateTo($"/user/{createdUser.Id}"); 
+            // Navigate to users list page to see the newly created user
+            NavigationManager.NavigateTo("/users");
 
             // For this simple case, just show a success message/log
             Console.WriteLine($"User created successfully: {createdUser.Username}");

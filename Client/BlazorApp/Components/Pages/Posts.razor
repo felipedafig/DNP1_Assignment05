@@ -1,7 +1,37 @@
 ﻿@page "/posts"
+@rendermode InteractiveServer
 
-<PageTitle>Posts</PageTitle>
+@using Shared.DTOs.Posts
+@inject IPostService PostService
 
-<h1>Post list</h1>
+<h1>Posts</h1>
 
+@if (posts is null)
+{
+    <p>Loading…</p>
+}
+else if (!posts.Any())
+{
+    <p>No posts yet.</p>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var p in posts)
+        {
+            <a class="list-group-item list-group-item-action" href=$"/posts/{p.Id}">
+                <div class="fw-bold">@p.Title</div>
+                <div class="text-muted">1</div>
+            </a>
+        }
+    </div>
+}
 
+@code {
+    private List<PostDto>? posts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        posts = await PostService.GetPostsAsync();
+    }
+}

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Client\\Blazorapp\\BlazorApp.csproj": {}
+    "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Client\\BlazorApp\\BlazorApp.csproj": {}
   },
   "projects": {
-    "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Client\\Blazorapp\\BlazorApp.csproj": {
+    "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Client\\BlazorApp\\BlazorApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Client\\Blazorapp\\BlazorApp.csproj",
+        "projectUniqueName": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Client\\BlazorApp\\BlazorApp.csproj",
         "projectName": "BlazorApp",
-        "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Client\\Blazorapp\\BlazorApp.csproj",
+        "projectPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Client\\BlazorApp\\BlazorApp.csproj",
         "packagesPath": "C:\\Users\\felip\\.nuget\\packages\\",
-        "outputPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Client\\Blazorapp\\obj\\",
+        "outputPath": "C:\\Git_VIACode\\DNP1Y\\Assignment05\\Client\\BlazorApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\felip\\AppData\\Roaming\\NuGet\\NuGet.Config"

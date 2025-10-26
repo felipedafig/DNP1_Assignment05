@@ -43,6 +43,10 @@ Accept: application/json
 GET {{WebAPI1_HostAddress}}/users?username=felps
 Accept: application/json
 
+### 7. GET - Get Users 
+GET {{WebAPI1_HostAddress}}/users
+Accept: application/json
+
 
 ######## POSTS ########
 

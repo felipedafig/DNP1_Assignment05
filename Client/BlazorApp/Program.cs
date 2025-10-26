@@ -9,7 +9,13 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddScoped(sp => new HttpClient
 {
-    BaseAddress = new Uri("http://localhost:7005/")
+    BaseAddress = new Uri("http://localhost:5075/")
+});
+
+// Force clear any cached HttpClient instances
+builder.Services.AddHttpClient<IUserService, HttpUserService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5075/");
 });
 
 builder.Services.AddScoped<IUserService, HttpUserService>();
