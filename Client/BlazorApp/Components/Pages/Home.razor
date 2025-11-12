@@ -1,10 +1,24 @@
 @page "/"
+@inject NavigationManager NavMgr
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, planet!</h1>
+<h1>Reddit Clone</h1>
 
-Welcome to Shitty Reddit.
+<AuthorizeView>
+    <Authorized>
+        <h3>Hello, @context.User.Identity.Name</h3>
+    </Authorized>
+    <NotAuthorized>
+        lol you are not logged in!
+    </NotAuthorized>
+</AuthorizeView>
+
+Here you can browse interesting posts.
+
+<button @onclick='() => NavMgr.NavigateTo("login")'>
+    go to login
+</button>
 
 <div class="mt-4">
     <img src="/images/shittyReddit.png" alt="Shitty Reddit Logo" class="img-fluid" />

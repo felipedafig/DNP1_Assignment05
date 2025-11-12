@@ -55,9 +55,9 @@ POST {{WebAPI1_HostAddress}}/posts
 Content-Type: application/json
 
 {
-    "Title" : "Pro3 bug",
+    "Title" : "LEKIII",
     "Body" : "Does anyone know how to solve the bug?",
-    "UserId" : 2
+    "UserId" : 1
 }
 
 ### 8. POST - Create Post 2 (User 3)
@@ -113,7 +113,6 @@ Accept: application/json
 ### 15. PUT - Update Comment 1
 PUT {{WebAPI1_HostAddress}}/comments/1 
 Content-Type: application/json
-
 {
     "Body" : "Acc idk",
     "UserId" : 1,
@@ -131,3 +130,22 @@ Accept: application/json
 ### 18. GET - Get comments by User 1 (Final Example)
 GET {{WebAPI1_HostAddress}}/comments?userId=1
 Accept: application/json
+
+### 2. POST - Create User (Joao)
+POST {{WebAPI1_HostAddress}}/users
+Content-Type: application/json
+
+{
+    "Username": "Joao",
+    "Password": "321"
+}
+
+######## AUTHENTICATION ########
+
+Post {{WebAPI1_HostAddress}}/auth/login
+Content-Type: application/json
+
+{
+    "Username": "Joao",
+    "Password": "321"
+}

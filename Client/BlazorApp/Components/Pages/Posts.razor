@@ -1,9 +1,12 @@
 ﻿@page "/posts"
+@attribute [Authorize]
 @rendermode InteractiveServer
 
 @using BlazorApp.Services
 @using Shared.DTOs.Posts
 @using Shared.DTOs.Users
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
 @inject IPostService PostService
 @inject IUserService UserService
 
@@ -22,24 +25,59 @@ else
     <div class="list-group">
         @foreach (var p in posts)
         {
-            <a class="list-group-item list-group-item-action" href="@($"/posts/{p.Id}")">
+            <div class="list-group-item">
                 <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5 class="mb-1">@p.Title</h5>
-                        <small class="text-muted">By: @GetAuthorName(p.UserId)</small>
-                    </div>
+                    <a href="@($"/posts/{p.Id}")" class="flex-grow-1 text-decoration-none text-reset">
+                        <div>
+                            <h5 class="mb-1">@p.Title</h5>
+                            <small class="text-muted">By: @GetAuthorName(p.UserId)</small>
+                        </div>
+                    </a>
+                    @if (userId == p.UserId)
+                    {
+                        <button class="btn btn-sm btn-warning ms-2" @onclick="() => EditPost(p.Id)">Edit</button>
+                    }
                 </div>
-            </a>
+            </div>
         }
     </div>
 }
 
 @code {
+    [CascadingParameter] public Task<AuthenticationState> State { get; set; }
+    
     private List<PostDto>? posts;
     private Dictionary<int, string> _authorNames = new();
+    private int userId;
+    private string? userName;
+    private bool isAuthenticated = false;
 
     protected override async Task OnInitializedAsync()
     {
+        // Get the AuthenticationState
+        AuthenticationState authenticationState = await State;
+        ClaimsPrincipal claimsPrincipal = authenticationState.User;
+        
+        // Check if there is a ClaimsIdentity, or if that ClaimsIdentity is authenticated
+        if (claimsPrincipal.Identity is null || !claimsPrincipal.Identity.IsAuthenticated)
+        {
+            // the user is not logged in
+            isAuthenticated = false;
+        }
+        else
+        {
+            isAuthenticated = true;
+            // Get the username
+            userName = claimsPrincipal.Identity?.Name;
+            
+            // Get the list of Claims
+            IEnumerable<Claim> claims = claimsPrincipal.Claims;
+            
+            // Extract the user id from claims
+            string userIdAsString = claims.Single(c => c.Type == "Id").Value;
+            userId = int.Parse(userIdAsString);
+        }
+        
         await LoadPosts();
     }
 
@@ -79,5 +117,12 @@ else
     private string GetAuthorName(int userId)
     {
         return _authorNames.TryGetValue(userId, out var name) ? name : "Loading...";
+    }
+
+    private void EditPost(int postId)
+    {
+        // TODO: Implement edit post functionality
+        // For now, just show a message
+        Console.WriteLine($"Edit post {postId} clicked by user {userId}");
     }
 }

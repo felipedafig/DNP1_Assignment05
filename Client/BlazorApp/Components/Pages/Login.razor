@@ -1,0 +1,126 @@
+@page "/login"
+@rendermode InteractiveServer
+
+@using Shared.DTOs.Auth
+@using Shared.DTOs.Users
+@using BlazorApp.Auth
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+<PageTitle>Login</PageTitle>
+
+<h1>Login</h1>
+<hr />
+
+<button class="btn btn-primary" @onclick="ShowModal">
+    Login
+</button>
+
+<div class="modal @ModalClass" tabindex="-1" style="display: @ModalDisplay;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <EditForm Model="loginRequest" OnValidSubmit="HandleValidSubmit" FormName="login" Enhance>
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="btn-close" @onclick="HideModal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @if (ErrorMessage is not null)
+                    {
+                        <div class="alert alert-danger mb-3">@ErrorMessage</div>
+                    }
+                    @if (SuccessMessage is not null)
+                    {
+                        <div class="alert alert-success mb-3">@SuccessMessage</div>
+                    }
+                    <DataAnnotationsValidator />
+                    <ValidationSummary class="text-danger" />
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <InputText id="username" @bind-Value="loginRequest.Username" class="form-control" />
+                        <ValidationMessage For="() => loginRequest.Username" class="text-danger" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <InputText id="password" type="password" @bind-Value="loginRequest.Password" class="form-control" />
+                        <ValidationMessage For="() => loginRequest.Password" class="text-danger" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="HideModal">Close</button>
+                    <button type="submit" class="btn btn-success" disabled="@IsProcessing">
+                        @if (IsProcessing)
+                        {
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        }
+                        Login
+                    </button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginRequestDto loginRequest = new() { Username = "", Password = "" };
+    private string? ErrorMessage;
+    private string? SuccessMessage;
+    private bool IsProcessing = false;
+
+    private string ModalDisplay = "none";
+    private string ModalClass = "";
+
+    private void ShowModal()
+    {
+        ModalDisplay = "block";
+        ModalClass = "show";
+        ErrorMessage = null;
+        SuccessMessage = null;
+        StateHasChanged(); 
+    }
+
+    private void HideModal()
+    {
+        ModalDisplay = "none";
+        ModalClass = "";
+        ErrorMessage = null;
+        SuccessMessage = null;
+        loginRequest = new() { Username = "", Password = "" }; 
+        StateHasChanged();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        ErrorMessage = null;
+        SuccessMessage = null;
+        IsProcessing = true;
+
+        try
+        {
+            if (AuthenticationStateProvider is SimpleAuthProvider authProvider)
+            {
+                await authProvider.Login(loginRequest.Username, loginRequest.Password);
+                SuccessMessage = $"Login successful! Welcome, {loginRequest.Username}";
+                HideModal();
+                // Navigate to posts page after successful login
+                NavigationManager.NavigateTo("/posts");
+            }
+            else
+            {
+                ErrorMessage = "Authentication provider not available";
+            }
+        }
+        catch (Exception e)
+        {
+            ErrorMessage = $"Login failed: {e.Message}";
+        }
+        finally
+        {
+            IsProcessing = false;
+        }
+    }
+}
+

@@ -1,4 +1,10 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@using BlazorApp.Auth
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Shitty Reddit</a>
     </div>
@@ -27,7 +33,73 @@
             </NavLink>
         </div>
 
+        @if (isAuthenticated)
+        {
+            <div class="nav-item px-3">
+                <div class="nav-link text-light">
+                    <span>Logged in as: <strong>@userName</strong></span>
+                </div>
+            </div>
+            <div class="nav-item px-3">
+                <button class="nav-link btn btn-link text-start border-0 p-0" @onclick="HandleLogout" style="color: inherit;">
+                    <span class="bi-list-nested-nav-menu" aria-hidden="true"></span> Logout
+                </button>
+            </div>
+        }
+        else
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="login">
+                    <span class="bi-list-nested-nav-menu" aria-hidden="true"></span> Login
+                </NavLink>
+            </div>
+        }
+
         
     </nav>
 </div>
+
+@code {
+    [CascadingParameter] public Task<AuthenticationState> State { get; set; }
+    
+    private string? userName;
+    private bool isAuthenticated = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdateAuthenticationState();
+    }
+
+    private async Task UpdateAuthenticationState()
+    {
+        // Get the AuthenticationState
+        AuthenticationState authenticationState = await State;
+        ClaimsPrincipal claimsPrincipal = authenticationState.User;
+        
+        // Check if there is a ClaimsIdentity, or if that ClaimsIdentity is authenticated
+        if (claimsPrincipal.Identity is null || !claimsPrincipal.Identity.IsAuthenticated)
+        {
+            // the user is not logged in
+            isAuthenticated = false;
+            userName = null;
+        }
+        else
+        {
+            isAuthenticated = true;
+            // Get the username
+            userName = claimsPrincipal.Identity?.Name;
+        }
+        StateHasChanged();
+    }
+
+    private async Task HandleLogout()
+    {
+        if (AuthenticationStateProvider is SimpleAuthProvider authProvider)
+        {
+            await authProvider.Logout();
+            await UpdateAuthenticationState();
+            NavigationManager.NavigateTo("/");
+        }
+    }
+}
 

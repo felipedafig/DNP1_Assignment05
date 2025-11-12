@@ -87,7 +87,6 @@
             SuccessMessage = "Comment posted successfully!";
             ClearForm();
             
-            // Notify parent component that a comment was added
             await OnCommentAdded.InvokeAsync();
         }
         catch (Exception ex)
